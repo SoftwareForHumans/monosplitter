@@ -1,0 +1,8 @@
+<div>
+    <form #fileForm="ngForm" (ngSubmit)="onSubmit()">
+        <input #file type="file" name="file" id="file" (change)="fileSelection(file.files)">
+        <button type="submit">
+            UploadFile
+        </button>
+    </form>
+</div>
