@@ -1,0 +1,98 @@
+.dropzone
+    width: 600px
+    height: 250px
+    padding: 2rem
+    text-align: center
+    border: dashed 1px #979797
+    position: relative
+    margin: 0 auto
+    input
+        opacity: 0
+        position: absolute
+        height: 100%
+        width: 100%
+        top: 0
+        left: 0
+    label
+        color: white
+        width: 183px
+        height: 44px
+        border-radius: 21.5px
+        background-color: #3f51b5
+        padding: 8px 16px
+    h3 
+        font-size: 20px 
+        font-weight: 600
+        color: #38424c
+    span
+        font-size: 90px
+    .material-icons-outlined.iconColor
+        color: #38424c
+div.uploaded-file
+    width: 650px
+    margin: 1.5rem auto 0
+    display: flex
+    padding: 0.5rem
+    justify-content: space-between
+    align-items: center
+    border: dashed 1px #979797
+    flex-grow: 1
+    .info
+        width: 100%
+        .name
+            font-size: 14px
+            font-weight: 500
+            color: #353f4a
+            margin: 0
+        .size
+            font-size: 12px
+            font-weight: 500
+            color: #a4a4a4
+            margin: 0
+            margin-bottom: 0.25rem
+    .fileRep
+        font-size: 55px
+        width: 55px
+    .click
+        cursor: pointer
+        margin-left: 0.5rem
+        align-self: flex-end
+        font-size: 25px
+    .unclick
+        cursor: default
+        margin-left: 0.5rem
+        align-self: flex-end
+        font-size: 25px
+    .material-icons.iconColor.click
+        color: #38424c
+    .material-icons.iconColor.unclick
+        color: #c5c7c9
+    .material-icons.iconColor.fileRep
+        color: #38424c
+.fileover 
+    animation: shake 1s
+    animation-iteration-count: infinite
+
+@keyframes shake
+    0%
+        transform: translate(1px, 1px) rotate(0deg)
+    10%
+        transform: translate(-1px, -2px) rotate(-1deg)
+    20%
+        transform: translate(-3px, 0px) rotate(1deg)
+    30%
+        transform: translate(3px, 2px) rotate(0deg)
+    40%
+        transform: translate(1px, -1px) rotate(1deg)
+    50%
+        transform: translate(-1px, 2px) rotate(-1deg)
+    60%
+        transform: translate(-3px, 1px) rotate(0deg)
+    70%
+        transform: translate(3px, 1px) rotate(-1deg)
+    80%
+        transform: translate(-1px, -1px) rotate(1deg)
+    90%
+        transform: translate(1px, 2px) rotate(0deg)
+    100%
+        transform: translate(1px, -2px) rotate(-1deg)

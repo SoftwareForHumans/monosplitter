@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { backendSettings } from '../utils/backendSettings'
+import { BackendSettings } from '../utils/BackendSettings'
 import { catchError } from 'rxjs/operators';
 import { HttpClient } from '@angular/common/http';
 import { Observable, of } from 'rxjs';
@@ -8,7 +8,7 @@ import { Observable, of } from 'rxjs';
   providedIn: 'root'
 })
 export class FileManagementService {
-  backend: backendSettings = new backendSettings();
+  backend: BackendSettings = new BackendSettings();
   SERVER_URL: string = `${this.backend.localhost}/file-management`;
 
   constructor(private http:HttpClient) { }
@@ -36,7 +36,7 @@ export class FileManagementService {
       console.error(error); // log to console instead
 
       // Let the app keep running by returning an empty result.
-      return of(result as T);
+      return of(error);
     };
   }
 }
