@@ -22,21 +22,31 @@ public class StaticAnalysisService implements AnalysisService {
 	
 	@Override
 	public void execute() {
-		File dir = new File(projectRootLocation.toString().replace("'\'", "/").concat("/external-libs"));
+		String osOperation = System.getProperty("os.name").toLowerCase().startsWith("windows") ? "cmd.exe" : "sh";
+		File executionDir = new File(projectRootLocation.toString().replace("'\'", "/").concat("/external-libs"));
 		File projectJAR = new File(projectRootLocation.toString().replace("'\'", "/").concat("/upload-dir")).listFiles()[0];
 		
 		try {
-			Process process = Runtime.getRuntime().exec("java -jar javacg-0.1-SNAPSHOT-static.jar ".concat(projectJAR.getPath().toString()), null, dir);
-
-			StringBuilder output = new StringBuilder();
+			ProcessBuilder builder = new ProcessBuilder();
+			builder.command(osOperation, "/c", "java -jar javacg-0.1-SNAPSHOT-static.jar ".concat(projectJAR.getPath().toString()));
+			builder.directory(executionDir);
+			
+			Process process = builder.start();
 			BufferedReader reader = new BufferedReader(new InputStreamReader(process.getInputStream()));
 			
-			File staticAnalysisResult = new File(projectRootLocation.toString().replace("'\'", "\\").concat("\\upload-dir\\staticAnalysisResult.txt"));
-			FileWriter fw = new FileWriter(staticAnalysisResult);
+			String fileName = projectJAR.getName().toString().split("\\.")[0];
+			File result = new File(projectRootLocation.toString().replace("'\'", "\\").
+												concat("\\upload-dir\\").
+												concat(fileName).
+												concat("_STATIC_ANALYSIS.txt"));
+			
+			FileWriter fw = new FileWriter(result);
 			
 			String line;
 			while ((line = reader.readLine()) != null) {
-				fw.write(line + "\n");
+				if(line.substring(0, 1).equalsIgnoreCase("m")) {
+					fw.write(line + "\n");
+				}
 			}
 
 			int exitVal = process.waitFor();

@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.uporto.monosplitter.service.analysis.AnalysisService;
 import com.uporto.monosplitter.service.analysis.DynamicAnalysisService;
 import com.uporto.monosplitter.service.analysis.StaticAnalysisService;
 
@@ -16,8 +17,8 @@ import com.uporto.monosplitter.service.analysis.StaticAnalysisService;
 @Controller
 @RequestMapping(value = "/analysis")
 public class AnalysisController {
-	private final StaticAnalysisService staticAnalysisService;
-	private final DynamicAnalysisService dynamicAnalysisService;
+	private final AnalysisService staticAnalysisService;
+	private final AnalysisService dynamicAnalysisService;
 
 	@Autowired
 	public AnalysisController(StaticAnalysisService staticAnalysisService, DynamicAnalysisService dynamicAnalysisService) {

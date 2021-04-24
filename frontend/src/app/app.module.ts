@@ -9,10 +9,12 @@ import { AppComponent } from './app.component';
 import { UploadFileComponent } from './components/upload-file/upload-file.component';
 import { WorkflowStepperComponent } from './components/workflow-stepper/workflow-stepper.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { MatStepperModule } from '@angular/material/stepper';
+import { MatStepperModule, MatSnackBarModule, MatButtonModule, MatSlideToggleModule, MatTabsModule } from '@angular/material';
 import { NavigationBarComponent } from './components/navigation-bar/navigation-bar.component';
 import { DndDirective } from './directives/dnd.directive';
 import { ProgressComponent } from './components/progress/progress.component';
+import { DecompositionDetailsComponent } from './components/decomposition-details/decomposition-details.component';
+import { DecompositionResultComponent } from './components/decomposition-result/decomposition-result.component';
 
 @NgModule({
   declarations: [
@@ -21,7 +23,9 @@ import { ProgressComponent } from './components/progress/progress.component';
     WorkflowStepperComponent,
     NavigationBarComponent,
     DndDirective,
-    ProgressComponent
+    ProgressComponent,
+    DecompositionDetailsComponent,
+    DecompositionResultComponent
   ],
   imports: [
     BrowserModule,
@@ -29,7 +33,11 @@ import { ProgressComponent } from './components/progress/progress.component';
     HttpClientModule,
     FormsModule,
     BrowserAnimationsModule,
-    MatStepperModule
+    MatStepperModule, 
+    MatSnackBarModule, 
+    MatButtonModule,
+    MatSlideToggleModule,
+    MatTabsModule
   ],
   providers: [],
   bootstrap: [AppComponent]

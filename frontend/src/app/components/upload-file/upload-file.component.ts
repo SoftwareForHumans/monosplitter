@@ -1,5 +1,7 @@
-import { Component } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { MatSnackBar } from '@angular/material';
 import { FileManagementService } from '../../services/file-management.service'
+
 
 @Component({
   selector: 'app-upload-file',
@@ -11,25 +13,48 @@ export class UploadFileComponent{
   fileProgress = 0;
   progressBarState = "loading";
   deleteClassName = "unclick";
+  @Output() fileChanged = new EventEmitter();
+  @Input() disableComponent = false;
 
   constructor(
-    private fileManagementService: FileManagementService
+    private fileManagementService: FileManagementService,
+    private snackBar: MatSnackBar
   ) {
     this.file = null;
   }
 
   onFileDropped($event){
-    this.fileBrowseHandler($event);
+    if(!this.disableComponent){
+      this.fileBrowseHandler($event);
+    }
   }
 
   fileBrowseHandler(files : File[]){
     if(files.length > 0){
-      this.file = files[0];
-      this.fileProgress = 0;
+      let fileName = files[0].name.split('.');
+      let fileType = fileName[fileName.length - 1];
+      if(fileType.toUpperCase() === "JAR"){
+        this.file = files[0];
+        this.fileProgress = 0;
+        this.progressBarState = "loading";
+        this.deleteClassName = "unclick";
+        this.executeFileUploadService();
+      }else{
+        this.snackBar.open(fileType.toUpperCase() + " is not a valid file type", null, {
+          duration: 2000,
+        });
+      }
+    }else{
+      this.snackBar.open("Something went wrong... Upload project file again!", null, {
+        duration: 2000,
+      });
     }
-    this.progressBarState = "loading";
-    this.deleteClassName = "unclick";
-    this.executeFileUploadService();
+  }
+
+  executeFileUploadService(){
+    this.progressAnimation();
+    this.fileManagementService.uploadFile(this.file)
+      .subscribe(data => this.executeFileUploadServiceHandler(data));
   }
 
   progressAnimation(){
@@ -44,34 +69,33 @@ export class UploadFileComponent{
     }, 1000);
   }
 
+  executeFileUploadServiceHandler(data){
+    if(data === null){
+      this.uploadSuccess();
+    }else{
+      if(data.ok){
+        this.uploadSuccess();
+      }else{
+        this.progressBarState = "error";
+      }
+    }
+    this.deleteClassName = "click";
+  }
+
+  uploadSuccess(){
+    this.fileProgress = 100;
+    this.progressBarState = "success";
+    this.fileChanged.emit("STEP1_READY");
+  }
+
   deleteFile(){
     if(this.deleteClassName === "unclick"){
       return false;
     }else{
       this.file = null;
       this.deleteClassName = "unclick";
+      this.fileChanged.emit("STEP1_NOT_READY");
     }
-  }
-
-  executeFileUploadService(){
-    this.progressAnimation();
-    this.fileManagementService.uploadFile(this.file)
-      .subscribe(data => this.executeFileUploadServiceHandler(data));
-  }
-
-  executeFileUploadServiceHandler(data){
-    if(data === null){
-      this.fileProgress = 100;
-      this.progressBarState = "success";
-    }else{
-      if(data.ok){
-        this.fileProgress = 100;
-        this.progressBarState = "success";
-      }else{
-        this.progressBarState = "error";
-      }
-    }
-    this.deleteClassName = "click";
   }
 
   formatBytes(bytes, decimals = 2) {

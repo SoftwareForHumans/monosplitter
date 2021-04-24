@@ -1,14 +1,24 @@
-<mat-horizontal-stepper #stepper>
-    <mat-step>
+<mat-horizontal-stepper [linear]="true" #stepper>
+    <mat-step [stepControl]="uploadProjectStep">
         <ng-template matStepLabel>Upload your project</ng-template>
-        <app-upload-file></app-upload-file>
+        <app-upload-file (fileChanged)="handleSteppersState($event)"></app-upload-file>
+        <div class="navigation-buttons">
+            <button mat-raised-button color="primary" [disabled]="!uploadProjectNextButtonState" matStepperNext (click)="executeStaticAnalysisService(stepper)">Next</button>
+        </div>
     </mat-step>
-    <mat-step>
+    <mat-step [stepControl]="decompositionDetailsStep">
         <ng-template matStepLabel>Define decomposition details</ng-template>
-        <h2>Under Construction...</h2>
+        <app-decomposition-details (decompositionPropertiesChanged)="handleSteppersState($event)"></app-decomposition-details>
+        <div class="navigation-buttons">
+            <button mat-raised-button color="primary" [disabled]="!decompositionDetailsNextButtonState" matStepperNext>Next</button>
+            <button mat-raised-button matStepperPrevious>Back</button>
+        </div>
     </mat-step>
-    <mat-step>
+    <mat-step [stepControl]="decompositionStep">
         <ng-template matStepLabel>Get your decompositon</ng-template>
-        <h2>Under Construction...</h2>
+        <app-decomposition-result></app-decomposition-result>
+        <div class="navigation-buttons">
+            <button mat-raised-button matStepperPrevious>Back</button>
+        </div>
     </mat-step>
 </mat-horizontal-stepper>

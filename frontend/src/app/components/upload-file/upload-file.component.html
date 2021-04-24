@@ -1,28 +1,22 @@
-<!--<div class="dropzone">
-    <form #fileForm="ngForm" (ngSubmit)="onSubmit()">
-        <input #file type="file" name="file" id="file" (change)="fileSelection(file.files)">
-        <button type="submit">
-            UploadFile
-        </button>
-    </form>
-</div>-->
-<div class="dropzone" appDnd (fileDropped)="onFileDropped($event)">
-    <input type="file" #fileDropRef id="fileDropRef" (change)="fileBrowseHandler($event.target.files)"/>
-    <span class="material-icons-outlined iconColor">file_upload</span>
-    <h3>Drag and drop .jar file here</h3>
-    <h3>or</h3>
-    <label for="fileDropRef">Browse for file</label>
-</div>
-<div class="uploaded-file" *ngIf="file !== null">
-    <span class="material-icons iconColor fileRep">insert_drive_file</span>
-    <div class="info">
-        <h4 class="name">
-            {{file?.name}}
-        </h4>
-        <p class="size">
-            {{formatBytes(file?.size)}}
-        </p>
-        <app-progress [progress]="fileProgress" [stylesClassName]="progressBarState"></app-progress>
+<div [ngClass]="disableComponent === true ? 'uploader-container disabled' : 'uploader-container'">
+    <div class="dropzone" appDnd (fileDropped)="onFileDropped($event)">
+        <input type="file" #fileDropRef accept=".jar" id="fileDropRef" (change)="fileBrowseHandler($event.target.files)" [disabled]="disableComponent"/>
+        <span class="material-icons-outlined iconColor">file_upload</span>
+        <h3>Drag and drop .jar file here</h3>
+        <h3>or</h3>
+        <label for="fileDropRef">Browse for file</label>
     </div>
-    <span [class]="deleteClassName + ' material-icons iconColor'" (click)="deleteFile()">delete_forever</span>
+    <div class="uploaded-file" *ngIf="file !== null">
+        <span class="material-icons iconColor fileRep">insert_drive_file</span>
+        <div class="info">
+            <h4 class="name">
+                {{file?.name}}
+            </h4>
+            <p class="size">
+                {{formatBytes(file?.size)}}
+            </p>
+            <app-progress [progress]="fileProgress" [stylesClassName]="progressBarState"></app-progress>
+        </div>
+        <span [class]="deleteClassName + ' material-icons iconColor'" (click)="deleteFile()">delete_forever</span>
+    </div>
 </div>

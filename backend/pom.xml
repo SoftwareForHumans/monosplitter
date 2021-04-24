@@ -15,7 +15,7 @@
 	<description>Java monolith decomposition tool</description>
 	
 	<properties>
-		<java.version>1.8</java.version>
+		<java.version>11</java.version>
 	</properties>
 	
 	<dependencies>
@@ -29,7 +29,27 @@
 			<artifactId>spring-boot-starter-test</artifactId>
 			<scope>test</scope>
 		</dependency>
+		
+		<dependency>
+			<groupId>org.jgrapht</groupId>
+			<artifactId>jgrapht-core</artifactId>
+			<version>1.5.2-SNAPSHOT</version>
+		</dependency>
 	</dependencies>
+	
+	<repositories>
+		<repository>
+			<id>maven-snapshots</id>
+		    <url>http://oss.sonatype.org/content/repositories/snapshots</url>
+		    <layout>default</layout>
+		    <releases>
+		    	<enabled>false</enabled>
+		    </releases>
+		    <snapshots>
+		    	<enabled>true</enabled>
+		    </snapshots>
+		</repository>
+	</repositories>
 
 	<build>
 		<plugins>

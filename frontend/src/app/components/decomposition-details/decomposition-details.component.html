@@ -1,0 +1,10 @@
+<div class="container">
+    <div class="dynamic-analysis-data">
+        <h4>Dynamic analysis</h4>
+        <mat-slide-toggle color="primary" class="toggle" (change)="toggleChanged($event)" [checked]="useDynamicAnalysis">Upload dynamic analysis data</mat-slide-toggle>
+        <app-upload-file [disableComponent] = "!useDynamicAnalysis"></app-upload-file>
+    </div>
+    <div class="decomposition-properties">
+        <h4>Decomposition properties</h4>
+    </div>
+</div>
