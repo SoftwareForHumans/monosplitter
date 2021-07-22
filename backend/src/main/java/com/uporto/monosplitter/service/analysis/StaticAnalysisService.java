@@ -44,9 +44,7 @@ public class StaticAnalysisService implements AnalysisService {
 			
 			String line;
 			while ((line = reader.readLine()) != null) {
-				if(line.substring(0, 1).equalsIgnoreCase("m")) {
-					fw.write(line + "\n");
-				}
+				fw.write(line + "\n");
 			}
 
 			int exitVal = process.waitFor();

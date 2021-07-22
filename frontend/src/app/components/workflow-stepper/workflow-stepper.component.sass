@@ -1,10 +1,23 @@
+#isLoading
+    opacity: 0.5
+.matStep
+    height: 100%
 .mat-stepper-horizontal
-    margin: 15px 30px 0px 30px
+    height: calc(100% - 90px)
+    padding: 0px 30px
+    margin-top: 15px
     background-color: #f3f0eb
+    #matStepResult
+        height: 100%
     .navigation-buttons
         button
             float: right
             margin-left: 5px
+.progressSpinner
+    position: fixed
+    top: 50%
+    left: 50%
+    transform: translate(-50%, -50%)
 
 ::ng-deep .mat-horizontal-stepper-header
     pointer-events: none !important

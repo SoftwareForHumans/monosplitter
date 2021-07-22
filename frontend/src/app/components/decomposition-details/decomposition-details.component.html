@@ -1,10 +1,103 @@
-<div class="container">
-    <div class="dynamic-analysis-data">
-        <h4>Dynamic analysis</h4>
-        <mat-slide-toggle color="primary" class="toggle" (change)="toggleChanged($event)" [checked]="useDynamicAnalysis">Upload dynamic analysis data</mat-slide-toggle>
-        <app-upload-file [disableComponent] = "!useDynamicAnalysis"></app-upload-file>
+<div class="componentContainer">
+    <div class="repository-analysis">
+        <h4>Project repository analysis</h4>
+        <div class="bootstrap-wrapper">
+            <div class="container">
+                <div class="row">
+                    <div class="col">
+                        <mat-slide-toggle color="primary" class="toggle" (change)="repoToggleChanged($event)"
+                            [checked]="useRepositoryAnalysis">Use project repository history data</mat-slide-toggle>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col">
+                        <mat-form-field appearance="fill" (change)="verifyPropertiesFields()">
+                            <mat-label>Enter the path to your git project checkout</mat-label>
+                            <input [(ngModel)]="gitCheckoutPath" matInput [required]="useRepositoryAnalysis"
+                                [disabled]="!useRepositoryAnalysis">
+                        </mat-form-field>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col">
+                        <p id="limit-title" [class]="useRepositoryAnalysis ? '' : 'repository-analysis-properties'">
+                            Repository history date range</p>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col">
+                        <mat-form-field appearance="fill" (change)="verifyPropertiesFields()">
+                            <mat-label>Start date</mat-label>
+                            <input (dateChange)="verifyPropertiesFields()" [(ngModel)]="repoStartDate" matInput [matDatepicker]="startDatePicker" [required]="useRepositoryAnalysis" [disabled]="!useRepositoryAnalysis">
+                            <mat-datepicker-toggle matSuffix [for]="startDatePicker"></mat-datepicker-toggle>
+                            <mat-datepicker #startDatePicker></mat-datepicker>
+                        </mat-form-field>
+                    </div>
+                    <div class="col">
+                        <mat-form-field appearance="fill" (change)="verifyPropertiesFields()">
+                            <mat-label>End date</mat-label>
+                            <input (dateChange)="verifyPropertiesFields()" [(ngModel)]="repoEndDate" matInput [matDatepicker]="endDatePicker" [required]="useRepositoryAnalysis" [disabled]="!useRepositoryAnalysis">
+                            <mat-datepicker-toggle matSuffix [for]="endDatePicker"></mat-datepicker-toggle>
+                            <mat-datepicker #endDatePicker></mat-datepicker>
+                        </mat-form-field>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
     <div class="decomposition-properties">
         <h4>Decomposition properties</h4>
+        <div class="bootstrap-wrapper">
+            <div class="container">
+                <div class="row">
+                    <div class="col">
+                        <mat-slide-toggle color="primary" class="toggle" (change)="noDependClassestoggleChanged($event)"
+                            [checked]="removeNoDependenciesClasses">Remove classes without dependencies
+                        </mat-slide-toggle>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col">
+                        <section class="example-section">
+                            <span class="example-list-section">
+                                <mat-checkbox class="example-margin" [checked]="allComplete"
+                                    [color]="nameSimilarityOptions.color" [indeterminate]="someComplete()"
+                                    (change)="setAll($event.checked)">
+                                    {{nameSimilarityOptions.name}}
+                                </mat-checkbox>
+                            </span>
+                            <span class="example-list-section">
+                                <ul>
+                                    <li *ngFor="let subtask of nameSimilarityOptions.subtasks">
+                                        <mat-checkbox [(ngModel)]="subtask.completed" [color]="subtask.color"
+                                            (ngModelChange)="updateAllComplete()">
+                                            {{subtask.name}}
+                                        </mat-checkbox>
+                                    </li>
+                                </ul>
+                            </span>
+                        </section>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col">
+                        <mat-form-field appearance="fill" (change)="verifyPropertiesFields()">
+                            <mat-label>Clustering algorithm</mat-label>
+                            <mat-select [(ngModel)]="selectedAlgorithm" required>
+                                <mat-option *ngFor="let algorithm of clusteringAlgorithms" [value]="algorithm.value">
+                                    {{algorithm.viewValue}}
+                                </mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                    </div>
+                    <div class="col">
+                        <mat-form-field appearance="fill" (change)="verifyPropertiesFields()">
+                            <mat-label>Number of services</mat-label>
+                            <input [(ngModel)]="nrServices" matInput type="number" required>
+                        </mat-form-field>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 </div>

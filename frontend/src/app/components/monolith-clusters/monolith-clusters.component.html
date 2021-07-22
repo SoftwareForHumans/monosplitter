@@ -1,0 +1,11 @@
+<div class="wrapper" *ngIf="decomposition && decomposition.systemModel.nodes.length < 200 else noGraph">
+    <div #svgContainer id="svg-container"> </div>
+</div>
+<ng-template #noGraph>
+    <div class="wrapper">
+        <h2>The graph for the desired system is not available!</h2>
+        <p>The uploaded system presentes more than 200 java classes, making it unavailable for visual representation.
+        </p>
+        <p>Check "Textual Information" tab to know the decomposition result!</p>
+    </div>
+</ng-template>

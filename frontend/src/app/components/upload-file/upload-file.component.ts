@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Component, EventEmitter, Input, Output, ViewChild, ElementRef } from '@angular/core';
 import { MatSnackBar } from '@angular/material';
 import { FileManagementService } from '../../services/file-management.service'
 
@@ -13,6 +13,7 @@ export class UploadFileComponent{
   fileProgress = 0;
   progressBarState = "loading";
   deleteClassName = "unclick";
+  @ViewChild('fileDropRef', { static: false }) inputElement: ElementRef;
   @Output() fileChanged = new EventEmitter();
   @Input() disableComponent = false;
 
@@ -85,7 +86,11 @@ export class UploadFileComponent{
   uploadSuccess(){
     this.fileProgress = 100;
     this.progressBarState = "success";
-    this.fileChanged.emit("STEP1_READY");
+    this.fileChanged.emit(
+      {
+        stepState: "STEP1_READY"
+      }
+    );
   }
 
   deleteFile(){
@@ -93,8 +98,13 @@ export class UploadFileComponent{
       return false;
     }else{
       this.file = null;
+      this.inputElement.nativeElement.value = null;
       this.deleteClassName = "unclick";
-      this.fileChanged.emit("STEP1_NOT_READY");
+      this.fileChanged.emit(
+        {
+          stepState: "STEP1_NOT_READY"
+        }
+      );
     }
   }
 

@@ -1,11 +1,15 @@
 package com.uporto.monosplitter.service.decomposition;
 
-import org.jgrapht.Graph;
-import org.jgrapht.graph.DefaultWeightedEdge;
+import java.util.ArrayList;
 
 import com.uporto.monosplitter.model.Node;
+import com.uporto.monosplitter.model.SystemModel;
 
 public interface IDecompositionService {
-	Graph<Node, DefaultWeightedEdge> getMonolith();
-	void getMonolithServiceCuts(Graph<Node, DefaultWeightedEdge> monolith);
+	SystemModel getSystemModel(boolean analyseRepository, String gitRepoCheckoutPath, String repoStartDate,
+			String repoEndDate, boolean useSimalarity, boolean className, boolean packageName);
+
+	ArrayList<ArrayList<Node>> getMonolithServiceCuts(SystemModel systemModel, String clusteringAlgorithm,
+			int nrClusters, boolean removeNoDependenciesClasses);
+
 }

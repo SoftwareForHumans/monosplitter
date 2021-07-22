@@ -6,12 +6,19 @@ public class Node {
 	private String shortName;
 	private String completeName;
 	private boolean isInterface;
+	private boolean hasDependency;
 	
 	public Node(int id, String shortName, String completeName) {
 		this.id = id;
 		this.shortName = shortName;
 		this.completeName = completeName;
-		this.isInterface = false;
+	}
+	
+	public Node(int id, String shortName, String completeName, boolean hasDependency) {
+		this.id = id;
+		this.shortName = shortName;
+		this.completeName = completeName;
+		this.hasDependency = hasDependency;
 	}
 	
 	public int getId() {
@@ -37,7 +44,7 @@ public class Node {
 	public void setCompleteName(String completeName) {
 		this.completeName = completeName;
 	}
-
+	
 	public boolean isInterface() {
 		return isInterface;
 	}
@@ -45,7 +52,15 @@ public class Node {
 	public void setInterface(boolean isInterface) {
 		this.isInterface = isInterface;
 	}
-	
+
+	public boolean isHasDependency() {
+		return hasDependency;
+	}
+
+	public void setHasDependency(boolean hasDependency) {
+		this.hasDependency = hasDependency;
+	}
+
 	@Override
 	public int hashCode() {
 		// TODO Auto-generated method stub

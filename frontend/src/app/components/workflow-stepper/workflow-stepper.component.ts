@@ -1,7 +1,8 @@
-import { Component } from '@angular/core';
+import { Component, EventEmitter } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { MatStepper } from '@angular/material/stepper';
 import { ProjectAnalysisService } from '../../services/project-analysis.service';
+import { DecompositionService } from '../../services/decomposition.service';
 
 @Component({
   selector: 'app-workflow-stepper',
@@ -10,14 +11,25 @@ import { ProjectAnalysisService } from '../../services/project-analysis.service'
 })
 export class WorkflowStepperComponent {
 
+  //STEPPER CONTROL
   uploadProjectStep = new FormControl()
   uploadProjectNextButtonState = false;
   decompositionDetailsStep = new FormControl()
   decompositionDetailsNextButtonState = false;
   decompositionStep = new FormControl();
 
+  //SERVICE DATA
+  private decompositionProperties:Object;
+
+  //LOADING CONTROLLER
+  private showLoadingSpinner:Boolean = false;
+
+  decompositionResult:any;
+
+
   constructor(
     private projectAnalysisService: ProjectAnalysisService,
+    private projectDecompositionService: DecompositionService
   ) {
     this.setState(this.uploadProjectStep, true);
     this.setState(this.decompositionDetailsStep, false);
@@ -54,8 +66,7 @@ export class WorkflowStepperComponent {
   }
 
   handleSteppersState(action:any){
-    console.log("estou aqui")
-    switch(action){
+    switch(action.stepState){
       case "STEP1_READY":
         this.uploadProjectNextButtonState = true;
         break;
@@ -64,7 +75,7 @@ export class WorkflowStepperComponent {
         this.uploadProjectNextButtonState = false;
         break;
       case "STEP2_READY":
-        this.activateStep3();
+        this.decompositionProperties = action.data;
         this.decompositionDetailsNextButtonState = true;
         break;
       case "STEP2_NOT_READY":
@@ -76,12 +87,34 @@ export class WorkflowStepperComponent {
   }
 
   executeStaticAnalysisService(stepper : MatStepper){
+    this.showLoadingSpinner = true;
     this.projectAnalysisService.staticAnalysis()
       .subscribe(data => this.executeStaticAnalysisServiceHandler(stepper, data));
   }
 
   executeStaticAnalysisServiceHandler(stepper : MatStepper, data: any){
-    this.activateStep2()
-    stepper.next();
+    this.showLoadingSpinner = false;
+    let self = this;
+
+    setTimeout(function(){
+      self.activateStep2()
+      stepper.next();
+      }, 250);
+  }
+
+  executeDecompositionService(stepper : MatStepper){
+    this.showLoadingSpinner = true;
+    this.projectDecompositionService.decomposeSystem(this.decompositionProperties)
+      .subscribe(data => this.executeDecompositionServiceHandler(stepper, data));
+  }
+
+  executeDecompositionServiceHandler(stepper : MatStepper, data: any){
+    this.showLoadingSpinner = false;
+    let self = this;
+    this.decompositionResult = data;
+    setTimeout(function(){
+      self.activateStep3()
+      stepper.next();
+    }, 250);
   }
 }

@@ -1,10 +1,10 @@
 <div class = "decomposition-result">
     <mat-tab-group>
         <mat-tab label="Microservices Decomposition Suggestion">
-            <h2>Under Construction...</h2>
+            <app-monolith-clusters [decomposition]="decompositionResultData"></app-monolith-clusters>
         </mat-tab>
-        <mat-tab label="Monolith System Model">
-            <h2>Under Construction...</h2>
+        <mat-tab label="Textual Information">
+            <app-monolith-clusters-textual [decomposition]="decompositionResultData"></app-monolith-clusters-textual>
         </mat-tab>
     </mat-tab-group>
 </div>
